@@ -1,0 +1,6 @@
+Simple php performance benchmark
+
+Just throw new classes extending Benchmark_Abstract in the benchmarks/ folder.
+A lot of benchmarks are already included by default.
+
+Tests can be run from the web interface in htdcos/index.php or from the command line tools in bin/
