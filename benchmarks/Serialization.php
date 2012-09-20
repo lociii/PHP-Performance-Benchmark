@@ -18,7 +18,7 @@ require_once 'Benchmark/Abstract.php';
  * @author     Jens Nistler <jens.nistler@kwick.de>
  * @copyright  Copyright (c) 2008-2010 Kwick! GmbH & Co. KG (http://www.kwick.de)
  */
-class IncludeVsSerializeVsJson extends Benchmark_Abstract {
+class Serialization extends Benchmark_Abstract {
 	protected $fixture = 'fixtures/data.php';
 
 	public function  __construct() {
