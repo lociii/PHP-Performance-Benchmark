@@ -1,6 +1,6 @@
 <?php
 
-$data = array(
+return array(
 	'routes' => array(
 		'activation' => array(
 			'route' => '/aktivierung',

@@ -34,21 +34,33 @@ class IncludeVsSerializeVsJson extends Benchmark_Abstract {
 
 		// prepare fixture
 		$this->fixture = dirname($this->file).DIRECTORY_SEPARATOR.$this->fixture;
-		require $this->fixture;
+		/* @var array $data */
+		$data = require $this->fixture;
+
 		$this->fixtureSerialize = dirname($this->fixture).DIRECTORY_SEPARATOR.'dataSerialize.txt';
 		file_put_contents($this->fixtureSerialize, serialize($data));
+
 		$this->fixtureJson = dirname($this->fixture).DIRECTORY_SEPARATOR.'dataJson.txt';
 		file_put_contents($this->fixtureJson, json_encode($data));
+
+		// check igbinary format if extension is available
+		if (function_exists('igbinary_serialize')) {
+			$this->fixtureIgbinary = dirname($this->fixture).DIRECTORY_SEPARATOR.'dataIgb.txt';
+			file_put_contents($this->fixtureIgbinary, igbinary_serialize($data));
+			$this->name.= ' vs. igbinary';
+			$this->benchmarks['igbinary'] = 'test_igbinary';
+		}
 	}
 
 	public function __destruct() {
 		// unlink additional fixtures
 		unlink($this->fixtureSerialize);
 		unlink($this->fixtureJson);
+		unlink($this->fixtureIgbinary);
 	}
 
 	protected function test_include() {
-		require $this->fixture;
+		$data = require $this->fixture;
 	}
 
 	protected function test_serialize()	{
@@ -59,5 +71,10 @@ class IncludeVsSerializeVsJson extends Benchmark_Abstract {
 	protected function test_json()	{
 		$data = file_get_contents($this->fixtureJson);
 		$data = json_decode($data);
+	}
+
+	protected function test_igbinary() {
+		$data = file_get_contents($this->fixtureIgbinary);
+		$data = igbinary_unserialize($data);
 	}
 }
